@@ -18,6 +18,7 @@ body{
     text-align: center;
     display: flex;
     justify-content: space-around;
+    margin: 0 10%;
 }
 
 
@@ -68,6 +69,7 @@ body{
     padding: 10px;
 }
 
+
 /* Media queries */
 @media (max-width: 768px){
     .data_user{
@@ -89,21 +91,23 @@ body{
 
 @media (max-width: 576px){
 
-    body{
-        min-width: 500px;
-    }
-
     .user{
-        height: 140px;
-        margin: 10px;
+        height: 128px;
+        width: 400px;
+        margin: 10px auto;
     }
 
     .img-fluid{
-        max-width: 100%;
+        max-width: auto;
         min-width: auto;
     }
 
     .container{
         margin: 0 auto;
     }
+
+    .header nav {
+        display: block;
+        justify-content: center;
+    }  
 }

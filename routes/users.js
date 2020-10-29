@@ -21,10 +21,9 @@ router.get('/', function (req, res, next) {
 
 router.get('/filter', async (req, res) => {
     // queries params 
-    const name_search = req.query.name.toLowerCase();
-    const limit = req.query.limit;
-    const filter = req.query.filter;
-
+    var name_search = req.query.name.toLowerCase();
+    var filter = req.query.filter;
+    console.log(filter);
     //search name
     const search_db = [];
     for (let user of USERS_DB) {
@@ -34,23 +33,25 @@ router.get('/filter', async (req, res) => {
         }
     }
 
-    //filter sort name 
-    const USERS_DB_SORTNAME = await search_db.sort((a, b) => {
-        if (a.name > b.name) {
-            return 1;
-        } else if (a.name < b.name) {
-            return -1
+    const filterArr = (search_db) => {
+        if (filter === 'sortname') {
+            const USERS_DB_SORTNAME = search_db.sort((a, b) => {
+                if (a.name > b.name) {
+                    return 1;
+                } else if (a.name < b.name) {
+                    return -1
+                }
+                return 0;
+            });
+            return USERS_DB_SORTNAME;
+        } else if (filter === 'sortscore') {
+            const USERS_DB_SORTSCORE = search_db.sort((a, b) => a.score - b.score);
+            return USERS_DB_SORTSCORE;
+        } else {
+            return search_db;
         }
-        return 0;
-    });
-
-    // filter sort score
-    const USERS_DB_SORTSCORE = await search_db.sort((a, b) => a.score - b.score);
-
-    //pagination
-    const limit_result = USERS_DB_SORTNAME.slice(0, limit)
-    //array to front
-    res.json(limit_result);
+    }
+    console.log(filterArr(search_db));
+    res.json(filterArr(search_db));
 })
-
 module.exports = router;
